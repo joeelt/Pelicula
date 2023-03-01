@@ -1,6 +1,5 @@
 package com.example.pelicula;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,31 +7,34 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 public class Fragment2 extends Fragment {
-
-    private Button mBTN_Regresar;
+    private ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_2, container, false);
-//        View view = inflater.inflate(R.layout.fragment_1, container, false);
+        listView = view.findViewById(R.id.LV_Peliculas);
 
-       mBTN_Regresar = view.findViewById(R.id.BTN_Volver);
-       mBTN_Regresar.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Intent intent = new Intent(getContext(), MainActivity.class);
-               intent.putExtra("mensaje", "cartelera de peliculas");
+        Bundle bundle = getArguments();
+        Pelicula pelicula = (Pelicula) bundle.getSerializable("pelicula");
 
-               startActivity(intent);
-           }
-       });
+        ArrayList<String> peliculaList = new ArrayList<>();
+        peliculaList.add(pelicula.getmNom());
+        peliculaList.add(pelicula.getmGenero());
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, peliculaList);
+
+        listView.setAdapter(adapter);
+
         return view;
     }
 }
