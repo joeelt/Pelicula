@@ -17,6 +17,10 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.FL_Lista, new Fragment2())
+                .commit();
+
         mButton_Volver = findViewById(R.id.BTN_Volver);
 
         mButton_Volver.setOnClickListener(new View.OnClickListener() {

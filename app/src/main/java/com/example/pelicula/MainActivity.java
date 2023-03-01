@@ -30,10 +30,8 @@ public class MainActivity extends AppCompatActivity {
         String text = getIntent().getStringExtra("texto");
         textView.setText(text);
 
-        Fragment1 fragment1 = new Fragment1();
-
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.FL_Cargar, fragment1);
+        transaction.replace(R.id.FL_Cargar, new Fragment1());
         transaction.commit();
     }
 }

@@ -33,56 +33,44 @@ public class Fragment1 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_1, container, false);
 
-      mET_informacion = view.findViewById(R.id.ET_Nom);
-      mBTN_Visualizar = view.findViewById(R.id.BTN_Visualizar);
-      mBTN_Afegir = view.findViewById(R.id.BTN_Afegir);
-      mET_Genero = view.findViewById(R.id.ET_Genero);
+        mET_informacion = view.findViewById(R.id.ET_Nom);
+        mBTN_Visualizar = view.findViewById(R.id.BTN_Visualizar);
+        mBTN_Afegir = view.findViewById(R.id.BTN_Afegir);
+        mET_Genero = view.findViewById(R.id.ET_Genero);
 
         firebaseDatabase = FirebaseDatabase.getInstance(
-                "https://usuaris-72ed8-default-rtdb.europe-west1.firebasedatabase.app/");
+                "https://pelicula1-724eb-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = firebaseDatabase.getReference();
 
+        mBTN_Visualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        /*
-        firebaseDatabase = FirebaseDatabase.getInstance("https://pelicula1-724eb-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = firebaseDatabase.getReference();
-         */
-      mBTN_Visualizar.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MainActivity2.class);
+                startActivity(intent);
+            }
+        });
 
-              Intent intent = new Intent(getActivity(), MainActivity2.class);
-              startActivity(intent);
-          }
-      });
+        mBTN_Afegir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tituloPelicula = mET_informacion.getText().toString();
+                String genero = mET_Genero.getText().toString();
+                String uid = databaseReference.push().getKey();
 
-      mBTN_Afegir.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              String tituloPelicula = mET_informacion.getText().toString();
-              String genero = mET_Genero.getText().toString();
-              String uid = databaseReference.push().getKey();
+                Pelicula pelicula = new Pelicula(tituloPelicula, genero);
 
-              Log.d("---", tituloPelicula + " " + genero + " " + uid);
+                databaseReference.child("Pelicules").child(uid).setValue(pelicula);
 
-              Pelicula pelicula = new Pelicula(tituloPelicula, genero);
-
-              Log.d("---", pelicula.toString());
-
-              databaseReference.child("Pelicules").child(uid).setValue(pelicula);
-
-              /*
-              Intent intent = new Intent(getActivity(), MainActivity.class);
-              intent.putExtra("texto", tituloPelicula);
-              startActivity(intent);
-              */
-
-          }
-      });
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("texto", tituloPelicula);
+                startActivity(intent);
 
 
-      return view;
+            }
+        });
+
+
+        return view;
     }
-
-
 }
